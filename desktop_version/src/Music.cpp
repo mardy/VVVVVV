@@ -375,6 +375,12 @@ public:
     MusicTrack(SDL_RWops *rw)
     {
         SDL_zerop(this);
+        this->rw = rw;
+    }
+
+    void Load(void)
+    {
+        loaded = true;
         read_buf = (Uint8*) SDL_malloc(rw->size(rw));
         SDL_RWread(rw, read_buf, rw->size(rw), 1);
         int err;
@@ -385,7 +391,7 @@ public:
         {
             vlog_error("Unable to create Vorbis handle, error %d", err);
             VVV_free(read_buf);
-            goto end;
+            return;
         }
         vorbis_info = stb_vorbis_get_info(vorbis);
         format.wFormatTag = FAUDIO_FORMAT_IEEE_FLOAT;
@@ -407,25 +413,54 @@ public:
         vorbis_comment = stb_vorbis_get_comment(vorbis);
         parseComments(this, vorbis_comment.comment_list, vorbis_comment.comment_list_length);
         valid = true;
-
-end:
-        SDL_RWclose(rw);
     }
 
-    void Dispose(void)
+    void Unload(void)
     {
+        if (!loaded)
+        {
+            return;
+        }
         VVV_freefunc(stb_vorbis_close, vorbis);
         VVV_free(read_buf);
         VVV_free(decoded_buf_playing);
         VVV_free(decoded_buf_reserve);
+        /* The song might get loaded again, so reset the read cursor */
+        SDL_RWseek(rw, 0, RW_SEEK_SET);
+        loaded = false;
+    }
+
+    void Dispose(void)
+    {
+        if (loaded)
+        {
+            Unload();
+        }
         if (!IsHalted())
         {
             VVV_freefunc(FAudioVoice_DestroyVoice, musicVoice);
         }
+        SDL_RWclose(rw);
     }
 
     bool Play(bool loop)
     {
+        Halt();
+
+        if (currentTrack != this)
+        {
+            if (currentTrack)
+            {
+                currentTrack->Unload();
+            }
+            currentTrack = this;
+        }
+
+        if (!loaded)
+        {
+            Load();
+        }
+
         if (!valid)
         {
             return false;
@@ -434,8 +469,6 @@ end:
         shouldloop = loop;
         sample_pos = 0;
         stb_vorbis_seek_start(vorbis);
-
-        Halt();
 
         SDL_zero(callbacks);
         callbacks.OnBufferStart = &MusicTrack::refillReserve;
@@ -513,6 +546,7 @@ end:
         }
     }
 
+    SDL_RWops *rw;
     stb_vorbis* vorbis;
     int channels;
     Uint32 size;
@@ -527,9 +561,11 @@ end:
     Uint8* decoded_buf_reserve;
     Uint8* read_buf;
     bool shouldloop;
+    bool loaded;
     bool valid;
 
     static bool paused;
+    static MusicTrack *currentTrack;
     static FAudioSourceVoice* musicVoice;
 
     static void refillReserve(FAudioVoiceCallback* callback, void* ctx)
@@ -709,6 +745,7 @@ end:
 };
 bool MusicTrack::paused = false;
 FAudioSourceVoice* MusicTrack::musicVoice = NULL;
+MusicTrack* MusicTrack::currentTrack = NULL;
 
 musicclass::musicclass(void)
 {
