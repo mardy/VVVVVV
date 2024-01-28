@@ -191,6 +191,7 @@ set(PFS_SRC
     ../third_party/physfs/src/physfs_archiver_zip.c
     ../third_party/physfs/src/physfs_byteorder.c
     ../third_party/physfs/src/physfs_unicode.c
+    ../third_party/physfs/src/physfs_platform_ogc.c
     ../third_party/physfs/src/physfs_platform_posix.c
     ../third_party/physfs/src/physfs_platform_unix.c
     ../third_party/physfs/src/physfs_platform_windows.c
@@ -237,6 +238,20 @@ if(NOT OFFICIAL_BUILD)
         add_library(InterimVersion STATIC src/InterimVersion.out.c)
         list(APPEND STATIC_LIBRARIES InterimVersion)
     endif()
+endif()
+
+if(CMAKE_SYSTEM_NAME MATCHES "NintendoWii|NintendoGameCube")
+    add_custom_target(clear_cache
+        COMMAND ${CMAKE_COMMAND} -U BUILD_TIME ${CMAKE_BINARY_DIR}
+    )
+    add_dependencies(VVVVVV clear_cache)
+    string(TIMESTAMP BUILD_DATE "%Y%m%d%H%M%S" UTC)
+
+    target_compile_definitions(VVVVVV PRIVATE -D__OGC__)
+    target_link_libraries(VVVVVV SDL2::SDL2main)
+    ogc_create_dol(VVVVVV)
+    configure_file(ogc/meta.xml.in meta.xml)
+    configure_file(ogc/icon.png icon.png COPYONLY)
 endif()
 
 # Build options

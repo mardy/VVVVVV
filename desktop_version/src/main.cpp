@@ -4,6 +4,10 @@
 #include <emscripten/html5.h>
 #endif
 
+#ifdef __OGC__
+#include <unistd.h>
+#endif
+
 #include "ButtonGlyphs.h"
 #include "CustomLevels.h"
 #include "DeferCallbacks.h"
@@ -374,6 +378,9 @@ int main(int argc, char *argv[])
     bool open_console = false;
 #endif
 
+#ifdef __OGC__
+    chdir("/apps/VVVVVV/");
+#endif
     vlog_init();
 
     for (int i = 1; i < argc; ++i)

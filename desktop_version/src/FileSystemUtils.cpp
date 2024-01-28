@@ -35,7 +35,7 @@ static int mkdir(char* path, int mode)
 #include <sys/stat.h>
 #include <emscripten.h>
 #define MAX_PATH PATH_MAX
-#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__) || defined(__unix__)
+#elif defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__HAIKU__) || defined(__DragonFly__) || defined(__unix__) || defined(__OGC__)
 #include <limits.h>
 #include <sys/stat.h>
 #define MAX_PATH PATH_MAX

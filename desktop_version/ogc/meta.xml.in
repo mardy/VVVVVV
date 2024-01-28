@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>VVVVVV</name>
+  <coder>Terry Cavanagh</coder>
+  <version>@RELEASE_VERSION@</version>
+  <release_date>@BUILD_DATE@</release_date>
+  <short_description>Platform game</short_description>
+  <long_description>
+    Help! Everyone has been teleported away randomly! As the heroic Captain Viridian, it's up to you to find your friends, bring them back to safety, and save the universe! VVVVVV is a platform game all about exploring one simple mechanical idea - what if you reversed gravity instead of jumping?
+  </long_description>
+</app>
