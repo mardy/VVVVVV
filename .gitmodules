@@ -3,7 +3,7 @@
 	url = https://github.com/lvandeve/lodepng
 [submodule "third_party/physfs"]
 	path = third_party/physfs
-	url = https://github.com/icculus/physfs/
+	url = https://github.com/mardy/physfs/
 [submodule "third_party/tinyxml2"]
 	path = third_party/tinyxml2
 	url = https://github.com/leethomason/tinyxml2/
