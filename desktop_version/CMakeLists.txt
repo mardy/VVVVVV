@@ -3,6 +3,8 @@
 
 cmake_minimum_required(VERSION 2.8.12...3.5)
 
+set(RELEASE_VERSION "v2.4.1")
+
 # CMake Options
 option(ENABLE_WARNINGS "Enable compilation warnings" ON)
 option(ENABLE_WERROR "Treat compilation warnings as errors" OFF)
@@ -134,6 +136,8 @@ elseif(ANDROID)
 else()
     add_executable(VVVVVV ${VVV_SRC})
 endif()
+
+target_compile_definitions(VVVVVV PRIVATE -DRELEASE_VERSION="${RELEASE_VERSION}")
 
 # Include Directories
 if(BUNDLE_DEPENDENCIES)

@@ -21,7 +21,6 @@
 #include "Map.h"
 #include "Maths.h"
 #include "Music.h"
-#include "ReleaseVersion.h"
 #include "RoomnameTranslator.h"
 #include "Screen.h"
 #include "Script.h"

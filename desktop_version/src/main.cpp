@@ -32,7 +32,6 @@
 #include "Music.h"
 #include "Network.h"
 #include "preloader.h"
-#include "ReleaseVersion.h"
 #include "Render.h"
 #include "RenderFixed.h"
 #include "Screen.h"
