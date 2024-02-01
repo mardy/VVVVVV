@@ -1,5 +1,22 @@
 ![logo](logo.gif "VVVVVV")
 
+Notes on the Wii/GameCube port
+------------------------------
+
+This branch contains a port of [VVVVVV](https://github.com/TerryCavanagh/VVVVVV) to the Nintendo Wii and GameCube consoles.
+
+This can be built using [devkitPro](https://devkitpro.org/wiki/Getting_Started), by following these instructions:
+
+    cd desktop_version
+    mkdir build && cd build
+    cmake -DCMAKE_TOOLCHAIN_FILE="$DEVKITPRO/cmake/Wii.cmake" ..
+    mv VVVVVV.elf boot.dol
+
+Then, copy `boot.dol`, `icon.png`, `meta.xml` and the `data.zip` file (which you can get from the [Releases](https://github.com/mardy/VVVVVV/releases) page) to a new `/apps/VVVVVV/` folder in your SD card. Start the Homebrew channel in your console, and enjoy the game. :-)
+
+Original README
+---------------
+
 This is the source code to VVVVVV, the 2010 indie game by [Terry Cavanagh](http://distractionware.com/), with music by [Magnus Pålsson](http://souleye.madtracker.net/). You can read the [announcement](http://distractionware.com/blog/2020/01/vvvvvv-is-now-open-source/) of the source code release on Terry's blog!
 
 The source code for the desktop version is in [this folder](desktop_version).
