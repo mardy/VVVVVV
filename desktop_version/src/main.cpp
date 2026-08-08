@@ -379,6 +379,7 @@ int main(int argc, char *argv[])
 
 #ifdef __OGC__
     chdir("/apps/VVVVVV/");
+    setenv("SDL_WII_JOYSTICK_SIDEWAYS", "1", 1);
 #endif
     vlog_init();
 
